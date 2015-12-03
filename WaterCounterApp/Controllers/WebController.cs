@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace WebApplication2.Controllers
+namespace WaterCounterApp.Controllers
 {
     public class WebController : Controller
     {
@@ -12,5 +12,11 @@ namespace WebApplication2.Controllers
         {
             return View();
         }
+
+        public ActionResult ListHomes()
+        {
+            return View();
+        }
+        
     }
 }

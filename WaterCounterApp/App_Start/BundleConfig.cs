@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Optimization;
 
-namespace WebApplication2
+namespace WaterCounterApp
 {
     public class BundleConfig
     {
@@ -32,6 +32,7 @@ namespace WebApplication2
                 "~/Scripts/angular-route.js"
                 ));
 
+      
         }
     }
 }

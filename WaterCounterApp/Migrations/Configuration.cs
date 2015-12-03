@@ -1,4 +1,4 @@
-namespace WebApplication2.Migrations
+namespace WaterCounterApp.Migrations
 {
     using System;
     using System.Collections.Generic;
@@ -6,7 +6,7 @@ namespace WebApplication2.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<WebApplication2.Models.WaterCounterDbContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<WaterCounterApp.Models.WaterCounterDbContext>
     {
         public Configuration()
         {
@@ -14,7 +14,7 @@ namespace WebApplication2.Migrations
             ContextKey = "WebApplication2.Models.WaterCountersDbContext";
         }
 
-        protected override void Seed(WebApplication2.Models.WaterCounterDbContext context)
+        protected override void Seed(WaterCounterApp.Models.WaterCounterDbContext context)
         {
 
             var home =  new Models.Home() { Address = "Moscow, Strret1, home=1", HomeId = 1 };

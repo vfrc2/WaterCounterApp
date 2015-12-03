@@ -4,12 +4,12 @@ using System.Linq;
 using System.Web.Http;
 using Newtonsoft.Json.Serialization;
 
-namespace WebApplication2
+namespace WaterCounterApp
 {
     public static class WebApiConfig
     {
 
-
+ 
 
         public static void Register(HttpConfiguration config)
         {

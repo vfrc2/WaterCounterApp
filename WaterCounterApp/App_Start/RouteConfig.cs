@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace WebApplication2
+namespace WaterCounterApp
 {
     public class RouteConfig
     {
@@ -18,6 +18,13 @@ namespace WebApplication2
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Web", action = "Index", id = UrlParameter.Optional }
             );
+
+            routes.MapRoute(
+                name: "Partial",
+                url: "view/{action}",
+                defaults: new { controller = "Web" }
+                );
+
         }
     }
 }

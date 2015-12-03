@@ -1,4 +1,4 @@
-namespace WebApplication2.Migrations
+namespace WaterCounterApp.Migrations
 {
     using System;
     using System.Data.Entity.Migrations;

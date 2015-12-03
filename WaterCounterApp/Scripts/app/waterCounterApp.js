@@ -1,10 +1,10 @@
 ﻿
 var app = angular.module("WaterCounterApp", ["ngRoute"])
-    .config(["$roterProvider", "$locationProvide", function ($roterProvider, $locationProvide) {
+    .config(["$routeProvider", "$locationProvider", function ($routeProvider, $locationProvider) {
 
-        $roterProvider
+        $routeProvider
             .when('/', {
-                templateUrl: '/views/list.html',
+                templateUrl: 'web/ListHomes',
                 controller: "HomesListController"
             })
 

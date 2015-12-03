@@ -6,12 +6,12 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
-using WebApplication2.Models;
-using WebApplication2.DTO;
+using WaterCounterApp.Models;
+using WaterCounterApp.DTO;
 using System.Linq.Expressions;
 
 
-namespace WebApplication2.Controllers
+namespace WaterCounterApp.Controllers
 {
     public class HomesController : ApiController
     {
