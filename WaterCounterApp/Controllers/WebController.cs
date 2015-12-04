@@ -18,5 +18,10 @@ namespace WaterCounterApp.Controllers
             return View();
         }
         
+        public ActionResult EditHome()
+        {
+            return View();
+        }
+
     }
 }
