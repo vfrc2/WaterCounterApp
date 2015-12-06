@@ -48,6 +48,7 @@ var app = angular.module("WaterCounterApp")
                     res = wcs.addHome(home).then(function (res) {
                         setHome(res);
                         $location.path("/home/" + res.homeId);
+                        $location.replace();
                     });
                 else
                     res = wcs.updateHome(home.homeId, home);
