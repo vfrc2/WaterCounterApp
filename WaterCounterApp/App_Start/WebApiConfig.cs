@@ -26,11 +26,15 @@ namespace WaterCounterApp
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
-                name: "DefaultApi",
+                name: "HomeApi",
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
-
+            config.Routes.MapHttpRoute(
+                name: "CounterApi",
+                routeTemplate: "api/homes/{homeid}/counters/{id}",
+                defaults: new { homeid = "-1", counterId = RouteParameter.Optional }
+            );
         }
 }
 }

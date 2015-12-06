@@ -3,8 +3,25 @@
 
         $scope.homes = [{ homeId: "1", address: "blablabla" }];
 
+        $scope.mostHome = {};
+        $scope.lessHome = {};
+
         wcs.getHomes().then(function (result) {
             $scope.homes = result;
+        });
+
+        wcs.getMostHome().then(function (result) {
+            $scope.mostHome = result;
+            $scope.mostHome.readings = result.counters.reduce(function(prev, current){
+                return (prev.readings < current.readings) ? prev : current;
+            }).readings;
+        });
+
+        wcs.getLessHome().then(function (result) {
+            $scope.lessHome = result;
+            $scope.lessHome.readings = result.counters.reduce(function(prev, current){
+                return (prev.readings > current.readings) ? prev : current;
+            }).readings;
         });
 
         $scope.edit = function (home) {

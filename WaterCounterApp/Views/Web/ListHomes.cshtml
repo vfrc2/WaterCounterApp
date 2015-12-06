@@ -1,6 +1,12 @@
 <h1>List of homes</h1>
 
-<button class="btn btn-success">Add new home</button>
+<h2>The most water consumed home:</h2>
+<p><b>id:</b> {{mostHome.homeId}} <b>address:</b> {{ mostHome.address }} <b>readings:</b> {{ mostHome.readings }}</p>
+
+<h2>The less water consumed home:</h2>
+<p><b>id:</b> {{lessHome.homeId}} <b>address:</b> {{ lessHome.address }} <b>readings:</b> {{ lessHome.readings }}</p>
+
+<button class="btn btn-success" ng-click="addNew()">Add new home</button>
 
 <table class="table table-striped">
     <thead>

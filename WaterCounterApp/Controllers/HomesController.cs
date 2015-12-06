@@ -44,6 +44,35 @@ namespace WaterCounterApp.Controllers
             return Ok(home);
         }
 
+        // GET: api/Homes/most
+        [ResponseType(typeof(Home))]
+        [Route("api/homes/most")]
+        public async Task<IHttpActionResult> GetMostConsumedHome()
+        {
+            Home home = await db.Homes.OrderByDescending(h => h.Counters.Max(c => c.Readings)).FirstOrDefaultAsync();
+            if (home == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(home);
+        }
+
+        // GET: api/Homes/less
+        [ResponseType(typeof(Home))]
+        [Route("api/homes/less")]
+        public async Task<IHttpActionResult> GetLessConsumedHome()
+        {
+            Home home = await db.Homes.OrderBy(h => h.Counters.Max(c => c.Readings)).FirstOrDefaultAsync();
+            if (home == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(home);
+        }
+
+
         // PUT: api/Homes/5
         [ResponseType(typeof(void))]
         public async Task<IHttpActionResult> PutHome(int id, Home home)
@@ -91,7 +120,7 @@ namespace WaterCounterApp.Controllers
             db.Homes.Add(home);
             await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = home.HomeId }, home);
+            return CreatedAtRoute("HomeApi", new { id = home.HomeId }, home);
         }
 
         // DELETE: api/Homes/5
@@ -108,6 +137,25 @@ namespace WaterCounterApp.Controllers
             await db.SaveChangesAsync();
 
             return Ok(home);
+        }
+
+
+        [ResponseType(typeof(WaterCounter))]
+        [Route("api/homes/{homeid}/counters")]
+        public async Task<IHttpActionResult> PostCounter(int homeId, WaterCounter counter)
+        {
+            Home home = await db.Homes.FindAsync(homeId);
+            if (home == null)
+            {
+                return NotFound();
+            }
+
+            db.Entry(counter).State = EntityState.Added;
+
+            home.Counters.Add(counter);
+            await db.SaveChangesAsync();
+
+            return Ok(counter);
         }
 
         protected override void Dispose(bool disposing)

@@ -5,11 +5,11 @@
     <input type="text" ng-model="home.address" class="form-control" />
 </div>
 <div class="form-group">
-    <button class="btn btn-warning">Save</button>
-    <button class="btn btn-default">Cancel</button>
+    <button class="btn btn-warning" ng-click="saveHome()">Save</button>
+    <button class="btn btn-default" ng-click="cancel()">Cancel</button>
 </div>
 
-<button class="btn btn-success">Add new counter</button>
+<button class="btn btn-success" ng-click="newCounter()">Add new counter</button>
 <table class="table table-striped">
     <thead>
         <tr>
@@ -21,12 +21,22 @@
     </thead>
     <tbody>
         <tr ng-repeat="counter in home.counters">
-            <td>{{ counter.waterCounterId }}</td>
-            <td>{{ counter.serialNum }}</td>
-            <td>{{ counter.readings }}</td>
             <td>
-                <button class="btn btn-warning">Update readings</button>
-                <button class="btn btn-danger">Delete</button>
+                <span ng-hide="counter.isNew">{{ counter.waterCounterId }}</span>
+                <span ng-hide="!counter.isNew">#NEW</span>
+            </td>
+            <td>
+                <span ng-hide="counter.isEditing">{{ counter.serialNum }}</span>
+                <input ng-hide="!counter.isEditing" ng-model="counter.serialNum" type="text" /> 
+            </td>
+            <td>
+                <span ng-hide="counter.isEditing">{{ counter.readings }}</span>
+                <input ng-hide="!counter.isEditing" ng-model="counter.readings" type="text" /></td>
+            <td>
+                <button ng-hide="!counter.isEditing" class="btn btn-success" ng-click="updateCounter(counter)">Save</button>
+                <button ng-hide="counter.isEditing" class="btn btn-warning" ng-click="counter.isEditing = true">Edit</button>
+                <button ng-hide="!counter.isEditing" class="btn btn-default" ng-click="cancelEditing(counter)">Cancel</button>
+                <button class="btn btn-danger" ng-disabled="counter.isNew" >Delete</button>
             </td>
         </tr>
     </tbody>
