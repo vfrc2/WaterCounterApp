@@ -55,6 +55,7 @@
         this.addHome = function (home) {
             var newhome = {
                 address: home.address,
+                counters: home.counters
             };
 
             var req = {
@@ -82,6 +83,15 @@
                     "Content-Type": "application/json"
                 },
                 data: newhome
+            }
+
+            return _proceedResponse($http(req));
+        }
+
+        this.deleteHome=function(homeId){
+            var req = {
+                method: "DELETE",
+                url: "api/homes/" + homeId
             }
 
             return _proceedResponse($http(req));

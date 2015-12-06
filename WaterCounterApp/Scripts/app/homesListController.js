@@ -13,17 +13,19 @@
 
         wcs.getMostHome().then(function (result) {
             $scope.mostHome = result;
-            $scope.mostHome.readings = result.counters.reduce(function(prev, current){
-                return (prev.readings > current.readings) ? prev : current;
-            }).readings;
-        }).catch(toastError);;
+            if ($scope.mostHome.counters && $scope.mostHome.counters.length > 0)
+                $scope.mostHome.readings = result.counters.reduce(function (prev, current) {
+                    return (prev.readings > current.readings) ? prev : current;
+                }).readings;
+        }).catch(toastError);
 
         wcs.getLessHome().then(function (result) {
             $scope.lessHome = result;
-            $scope.lessHome.readings = result.counters.reduce(function(prev, current){
-                return (prev.readings < current.readings) ? prev : current;
-            }).readings;
-        }).catch(toastError);;
+            if ($scope.lessHome.counters && $scope.lessHome.counters.length > 0)
+                $scope.lessHome.readings = result.counters.reduce(function (prev, current) {
+                    return (prev.readings < current.readings) ? prev : current;
+                }).readings;
+        }).catch(toastError);
 
         $scope.edit = function (home) {
             $location.path("/home/" + home.homeId);
@@ -37,7 +39,9 @@
                     }
                 })
 
-            dialog.then(function () {
+            dialog
+                .then(function () { return wcs.deleteHome(home.homeId) })
+                .then(function () {
                 var index = $scope.homes.indexOf(home);
                 if (index > -1)
                     $scope.homes.splice(index, 1);

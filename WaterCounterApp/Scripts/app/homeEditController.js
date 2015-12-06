@@ -3,25 +3,27 @@ var app = angular.module("WaterCounterApp")
         function ($scope, $location, ngDialog, wcs, routeParams, toastr) {
 
             $scope.home = {
-                homeId: "-1",
-                address: "no address",
+                homeId: "",
+                address: "",
                 counters: [
-                    {
-                        waterCounterid: '-1',
-                        serialNum: "dkfjkld",
-                        readings: 100
-                    }
+                   
                 ]
             }
+
+            $scope.prevHome = {};
+
+            setHome($scope.home);
 
             var id = routeParams.id;
 
             $scope.isNew = routeParams.id === 'new';
 
-            wcs.getHome(id).then(function (result) {
-                $scope.home = result;
-                //result.counters.forEach(prepareCounter)
-            }).catch(toastError);
+            if (!$scope.isNew) {
+                wcs.getHome(id).then(function (result) {
+                    setHome(result);
+                    
+                }).catch(toastError);
+            }
 
             $scope.newCounter = function () {
                 var counter = {
@@ -44,25 +46,40 @@ var app = angular.module("WaterCounterApp")
                 var res = null;
                 if ($scope.isNew)
                     res = wcs.addHome(home).then(function (res) {
-                        $scope.home = res;
-                        $location.path("/home/" + home.homeId);
+                        setHome(res);
+                        $location.path("/home/" + res.homeId);
                     });
                 else
                     res = wcs.updateHome(home.homeId, home);
 
                 res.then(function (res) {
+                    $scope.homeForm.$setPristine();
                     toastr.info("Home #" + home.homeId + " svaed!");
                 }).catch(toastError);
+            }
+
+            $scope.cancelHome = function () {
+                if ($scope.isNew)
+                    $location.path("/");
+                else {
+                    setHome($scope.prevHome);
+                    $scope.homeForm.$setPristine();
+                }
             }
 
             function toastError(err) {
                 toastr.error(err.message, "Error");
             }
 
+            function setHome(home) {
+                $scope.home = home;
+                $scope.prevHome = angular.copy(home);
+            }
+
         }])
 
-    .controller("EditCounterController", ['$scope', '$location', 'ngDialog', 'WaterCounterService', '$routeParams', 'toastr',
-        function ($scope, $location, ngDialog, wcs, routeParams, toastr) {
+    .controller("EditCounterController", ['$scope', '$location', 'ngDialog', 'WaterCounterService', '$routeParams', 'toastr', '$q',
+        function ($scope, $location, ngDialog, wcs, routeParams, toastr, $q) {
 
             $scope.isNew = $scope.counter.isNew;
             $scope.isEditing = $scope.counter.isNew;
@@ -75,19 +92,27 @@ var app = angular.module("WaterCounterApp")
 
                 var res = null;
 
-                if ($scope.isNew)
-                    res = wcs.addCounter($scope.home.homeId, counter).then(function (result) {
-                        $scope.counter = result;
-                    });
-                else
-                    res = wcs.updateCounter($scope.home.homeId, counter);
+                if (!$scope.$parent.isNew) {
+                    if ($scope.isNew)
+                        res = wcs.addCounter($scope.home.homeId, counter).then(function (result) {
+                            $scope.counter = result;
+                        });
+                    else
+                        res = wcs.updateCounter($scope.home.homeId, counter);
+                    res = res.then(function () {
+                        toastr.info("Water counter #" + counter.serialNum + " saved!");
+                    })
+                } else {
+                    res = $q.resolve();
+                }
 
                 return res.then(function () {
                     $scope.isNew = false;
                     $scope.isEditing = false;
-                    toastr.info("Water counter #" + counter.serialNum + " saved!");
                     
+                    $scope.counterForm.$setPristine();
                 }).catch(toastError);
+
             }
 
             $scope.cancelEditing = function (counter) {
