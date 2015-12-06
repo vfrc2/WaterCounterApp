@@ -1,5 +1,5 @@
 ﻿var app = angular.module("WaterCounterApp")
-    .service("WaterCounterService", ['$http', function ($http) {
+    .service("WaterCounterService", ['$http', '$q', function ($http, $q) {
 
         // get /api/homes
         this.getHomes = function () {
@@ -11,20 +11,7 @@
                 }
             }
             return _proceedResponse($http(req));
-        }
-
-        this.getHome = function (id) {
-
-            var req = {
-                method: "GET",
-                url: "/api/homes/"+id,
-                headers: {
-                    'Accept': 'application/json'
-                }
-            }
-            return _proceedResponse($http(req));
-
-        }
+        };
 
         this.getLessHome = function () {
 
@@ -50,6 +37,54 @@
             }
             return _proceedResponse($http(req));
 
+        }
+
+        this.getHome = function (id) {
+
+            var req = {
+                method: "GET",
+                url: "/api/homes/"+id,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            }
+            return _proceedResponse($http(req));
+
+        }
+
+        this.addHome = function (home) {
+            var newhome = {
+                address: home.address,
+            };
+
+            var req = {
+                method: "POST",
+                url: "api/homes",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                data: newhome
+            }
+
+            return _proceedResponse($http(req));
+        }
+
+        this.updateHome = function (homeId, home) {
+            var newhome = {
+                homeId: home.homeId,
+                address: home.address,
+            };
+
+            var req = {
+                method: "PUT",
+                url: "api/homes/" + homeId,
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                data: newhome
+            }
+
+            return _proceedResponse($http(req));
         }
 
         this.addCounter = function (homeId, data) {
@@ -103,7 +138,7 @@
             return httpPromise.then(function (result) {
                 return result.data;
             }, function (err) {
-                throw new Error("Api call exception!");
+                return $q.reject(new Error("Api call exception!", err));
             });
         }
 

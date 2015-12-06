@@ -27,13 +27,16 @@ namespace WaterCounterApp
                       "~/Content/bootstrap.css",
                       "~/Content/site.css",
                       "~/Content/ngDialog.css",
-                      "~/Content/ngDialog-theme-default.css"));
+                      "~/Content/ngDialog-theme-default.css",
+                      "~/Content/angular-toastr.css"
+                      ));
 
             bundles.Add(new ScriptBundle("~/bundles/angularjs").Include(
                 "~/Scripts/angular.js",
                 "~/Scripts/angular-route.js",
-                "~/Scripts/ngDialog.js"
-
+                "~/Scripts/ngDialog.js",
+                "~/Scripts/angular-toastr.js",
+                "~/Scripts/angular-toastr.tpls.js"
                 ));
 
       

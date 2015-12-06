@@ -1,46 +1,65 @@
 <h1>home #{{home.homeId}}</h1>
 
-<div class="form-group">
-    <label>Address</label>
-    <input type="text" ng-model="home.address" class="form-control" />
-</div>
-<div class="form-group">
-    <button class="btn btn-warning" ng-click="saveHome()">Save</button>
-    <button class="btn btn-default" ng-click="cancel()">Cancel</button>
-</div>
+<form name="homeForm" novalidate ng-submit="saveHome()">
+    <div class="form-group" ng-class="{ 'has-error' : homeForm.address.$invalid }">
+        <label class="control-label">Address</label>
+        <input type="text" name="address" ng-model="home.address" ng-minlength="5" required class="form-control"/>
+        <p class="help-block" ng-show="homeForm.address.$error.minlength">Address is to short!</p>
+        <p class="help-block" ng-show="homeForm.address.$error.required">Address is required!</p>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-warning" ng-disabled="homeForm.$invalid" ng-click="saveHome(home)">Save</button>
+        <button class="btn btn-default" ng-click="cancel()">Cancel</button>
+    </div>
+</form>
 
-<button class="btn btn-success" ng-click="newCounter()">Add new counter</button>
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Index</th>
-            <th>Serial num</th>
-            <th>Readings</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr ng-repeat="counter in home.counters" ng-controller="EditCounterController">
-            <td>
-                <span ng-hide="isNew">{{ counter.waterCounterId }}</span>
-                <span ng-hide="!isNew">#NEW</span>
-            </td>
-            <td>
-                <span ng-hide="isEditing">{{ counter.serialNum }}</span>
-                <input ng-hide="!isEditing" ng-model="counter.serialNum" type="text" /> 
-            </td>
-            <td>
-                <span ng-hide="isEditing">{{ counter.readings }}</span>
-                <input ng-hide="!isEditing" ng-model="counter.readings" type="text" /></td>
-            <td>
-                <button ng-hide="!isEditing" class="btn btn-success" ng-click="updateCounter(counter)">Save</button>
-                <button ng-hide="isEditing" class="btn btn-warning" ng-click="isEditing = true">Edit</button>
-                <button ng-hide="!isEditing" class="btn btn-default" ng-click="cancelEditing(counter)">Cancel</button>
-                <button class="btn btn-danger" ng-disabled="counter.isNew" ng-click="deleteCounter(counter)" >Delete</button>
-            </td>
-        </tr>
-    </tbody>
-</table>
+<button class="btn btn-success" ng-disabled="isNew" ng-click="newCounter()">Add new counter</button>
+<form novalidate name="countersForm">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Index</th>
+                <th>Serial num</th>
+                <th>Readings</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            
+                <tr ng-repeat="counter in home.counters" ng-controller="EditCounterController" class="form-group" ng-form="counterForm">
+                    
+                        <td>
+                            <span ng-hide="isNew">{{ counter.waterCounterId }}</span>
+                            <span ng-hide="!isNew">#NEW</span>
+                        </td>
+                        <td>
+                            <span ng-hide="isEditing">{{ counter.serialNum }}</span>
+                            <div class="form-group" ng-hide="!isEditing" ng-class="{ 'has-error' : counterForm.serialNum.$invalid }">
+                                <input class="form-control" name="serialNum" ng-model="counter.serialNum" type="text" required />
+                                <p class="help-block" ng-show="counterForm.serialNum.$invalid">Serial num required!</p>
+                            </div>
+                        </td>
+                        <td>
+
+                            <span ng-hide="isEditing">{{ counter.readings }}</span>
+                            <div class="form-group" ng-hide="!isEditing" ng-class="{ 'has-error' : counterForm.readings.$invalid }">
+                                <input class="form-control" ng-model="counter.readings" type="text" readings-validator required name="readings" />
+                                <p class="help-block" ng-show="counterForm.readings.$invalid">Readings reqiured and must be > 0!</p>
+                            </div>
+
+                        </td>
+                        <td>
+                            <button ng-hide="!isEditing" ng-disabled="counterForm.$invalid" class="btn btn-success" ng-click="updateCounter(counter)">Save</button>
+                            <button ng-hide="isEditing" class="btn btn-warning" ng-click="isEditing = true">Edit</button>
+                            <button ng-hide="!isEditing" class="btn btn-default" ng-click="cancelEditing(counter)">Cancel</button>
+                            <button class="btn btn-danger" ng-disabled="counter.isNew" ng-click="deleteCounter(counter)">Delete</button>
+                        </td>
+                 
+            </tr>
+
+        </tbody>
+    </table>
+</form>
 
 <script type="text/ng-template" id="deleteCounterDialog">
     <h3>Delete?</h3>

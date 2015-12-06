@@ -1,5 +1,5 @@
 ﻿
-var app = angular.module("WaterCounterApp", ["ngRoute","ngDialog"])
+var app = angular.module("WaterCounterApp", ["ngRoute", "ngDialog", "toastr"])
     .config(["$routeProvider", "$locationProvider", function ($routeProvider, $locationProvider) {
 
         $routeProvider
