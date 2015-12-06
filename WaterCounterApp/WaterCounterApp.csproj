@@ -150,9 +150,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\Initial.cs" />
-    <Compile Include="Migrations\Initial.Designer.cs">
-      <DependentUpon>Initial.cs</DependentUpon>
+    <Compile Include="Migrations\201512062306517_initial.cs" />
+    <Compile Include="Migrations\201512062306517_initial.Designer.cs">
+      <DependentUpon>201512062306517_initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\WaterCounterDbContext.cs" />
@@ -161,6 +161,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\localDb.mdf" />
+    <Content Include="App_Data\localDb_log.ldf">
+      <DependentUpon>localDb.mdf</DependentUpon>
+    </Content>
     <Content Include="Content\angular-toastr.css" />
     <Content Include="Content\angular-toastr.min.css" />
     <Content Include="Content\bootstrap-theme.css" />
@@ -226,9 +230,7 @@
     <Content Include="Views\Web\ListHomes.cshtml" />
     <Content Include="Views\Web\EditHome.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
@@ -237,8 +239,8 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\Initial.resx">
-      <DependentUpon>Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201512062306517_initial.resx">
+      <DependentUpon>201512062306517_initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

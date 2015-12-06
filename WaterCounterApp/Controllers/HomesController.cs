@@ -23,6 +23,14 @@ namespace WaterCounterApp.Controllers
             Address = x.Address,
         };
 
+        //private static readonly Expression<Func<WaterCounter, WaterCounterDTO>> AsWaterCounterDto = x => new WaterCounterDTO
+        //{
+        //    WaterCounterId = x.WaterCounterId,
+        //    SerialNum = x.SerialNum,
+        //    Readings = x.Readings,
+        //    HomeId = x.HomeId
+        //};
+
 
         // GET: api/Homes
         [ResponseType(typeof(HomeDto))]
@@ -36,6 +44,7 @@ namespace WaterCounterApp.Controllers
         public async Task<IHttpActionResult> GetHome(int id)
         {
             Home home = await db.Homes.FindAsync(id);
+
             if (home == null)
             {
                 return NotFound();
@@ -132,10 +141,15 @@ namespace WaterCounterApp.Controllers
             {
                 return NotFound();
             }
-
-            db.Homes.Remove(home);
-            await db.SaveChangesAsync();
-
+            try
+            {
+                db.Homes.Remove(home);
+                await db.SaveChangesAsync();
+            }
+            catch (Exception exp)
+            {
+                throw;
+            }
             return Ok(home);
         }
 

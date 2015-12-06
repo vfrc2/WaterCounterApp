@@ -21,5 +21,7 @@ namespace WaterCounterApp.Models
 
         public System.Data.Entity.DbSet<WaterCounterApp.Models.Home> Homes { get; set; }
         public System.Data.Entity.DbSet<WaterCounterApp.Models.WaterCounter> WaterCounters { get; set; }
+
+      
     }
 }

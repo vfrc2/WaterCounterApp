@@ -22,6 +22,12 @@ namespace WaterCounterApp
             config.Formatters.JsonFormatter.SerializerSettings.ContractResolver = 
                 new CamelCasePropertyNamesContractResolver();
 
+            config.Formatters.JsonFormatter.SerializerSettings.PreserveReferencesHandling = 
+                Newtonsoft.Json.PreserveReferencesHandling.Objects;
+
+            config.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling = 
+                Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+
             // Маршруты веб-API
             config.MapHttpAttributeRoutes();
 

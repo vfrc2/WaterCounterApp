@@ -3,7 +3,7 @@ namespace WaterCounterApp.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class InitialCreate : DbMigration
+    public partial class initial : DbMigration
     {
         public override void Up()
         {
@@ -26,7 +26,7 @@ namespace WaterCounterApp.Migrations
                         Home_HomeId = c.Int(),
                     })
                 .PrimaryKey(t => t.WaterCounterId)
-                .ForeignKey("dbo.Homes", t => t.Home_HomeId)
+                .ForeignKey("dbo.Homes", t => t.Home_HomeId, true)
                 .Index(t => t.Home_HomeId);
             
         }
