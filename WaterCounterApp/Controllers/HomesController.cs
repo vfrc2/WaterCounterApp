@@ -149,7 +149,7 @@ namespace WaterCounterApp.Controllers
             {
                 return NotFound();
             }
-
+           
             db.Entry(counter).State = EntityState.Added;
 
             home.Counters.Add(counter);
@@ -157,6 +157,64 @@ namespace WaterCounterApp.Controllers
 
             return Ok(counter);
         }
+
+        [ResponseType(typeof(WaterCounter))]
+        [Route("api/homes/{homeid}/counters/{counterId}")]
+        public async Task<IHttpActionResult> PutCounter(int homeId, int counterId, WaterCounter counter)
+        {
+            Home home = await db.Homes.FindAsync(homeId);
+            if (home == null)
+            {
+                return NotFound();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (home.Counters.All(c=>c.WaterCounterId != counterId))
+            {
+                return BadRequest();
+            }
+            
+            try
+            {
+                var attached = home.Counters.Find(wc => wc.WaterCounterId == counterId);
+                db.Entry(attached).CurrentValues.SetValues(counter);
+                await db.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!WaterCounterExists(counterId))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return StatusCode(HttpStatusCode.NoContent);
+        }
+
+        [ResponseType(typeof(WaterCounter))]
+        [Route("api/homes/{homeid}/counters/{counterId}")]
+        public async Task<IHttpActionResult> DeleteWaterCounter(int homeid, int counterid)
+        {
+            WaterCounter counter = await db.WaterCounters.FindAsync(counterid);
+            if (counter == null)
+            {
+                return NotFound();
+            }
+
+            db.WaterCounters.Remove(counter);
+            await db.SaveChangesAsync();
+
+            return Ok(counter);
+        }
+
 
         protected override void Dispose(bool disposing)
         {
@@ -170,6 +228,11 @@ namespace WaterCounterApp.Controllers
         private bool HomeExists(int id)
         {
             return db.Homes.Count(e => e.HomeId == id) > 0;
+        }
+
+        private bool WaterCounterExists(int id)
+        {
+            return db.WaterCounters.Count(e => e.WaterCounterId == id) > 0;
         }
     }
 }

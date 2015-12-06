@@ -71,6 +71,34 @@
             return _proceedResponse($http(req));
         }
 
+        this.updateCounter = function (homeId, counter) {
+
+            var proceedCounter = {
+                waterCounterId: counter.waterCounterId,
+                serialNum: counter.serialNum,
+                readings: counter.readings
+            }
+
+            var req = {
+                method: "PUT",
+                url: "api/homes/" + homeId + "/counters/"+counter.waterCounterId,
+                headers: {
+                    "Content-Type":"application/json"
+                },
+                data: proceedCounter
+            }
+            return _proceedResponse($http(req));
+        }
+
+        this.removeCounter = function (homeId, counterId) {
+            var req = {
+                method: "DELETE",
+                url: "api/homes/" + homeId + "/counters/" + counterId,
+            }
+            return _proceedResponse($http(req));
+        }
+
+
         function _proceedResponse(httpPromise) {
             return httpPromise.then(function (result) {
                 return result.data;

@@ -20,24 +20,31 @@
         </tr>
     </thead>
     <tbody>
-        <tr ng-repeat="counter in home.counters">
+        <tr ng-repeat="counter in home.counters" ng-controller="EditCounterController">
             <td>
-                <span ng-hide="counter.isNew">{{ counter.waterCounterId }}</span>
-                <span ng-hide="!counter.isNew">#NEW</span>
+                <span ng-hide="isNew">{{ counter.waterCounterId }}</span>
+                <span ng-hide="!isNew">#NEW</span>
             </td>
             <td>
-                <span ng-hide="counter.isEditing">{{ counter.serialNum }}</span>
-                <input ng-hide="!counter.isEditing" ng-model="counter.serialNum" type="text" /> 
+                <span ng-hide="isEditing">{{ counter.serialNum }}</span>
+                <input ng-hide="!isEditing" ng-model="counter.serialNum" type="text" /> 
             </td>
             <td>
-                <span ng-hide="counter.isEditing">{{ counter.readings }}</span>
-                <input ng-hide="!counter.isEditing" ng-model="counter.readings" type="text" /></td>
+                <span ng-hide="isEditing">{{ counter.readings }}</span>
+                <input ng-hide="!isEditing" ng-model="counter.readings" type="text" /></td>
             <td>
-                <button ng-hide="!counter.isEditing" class="btn btn-success" ng-click="updateCounter(counter)">Save</button>
-                <button ng-hide="counter.isEditing" class="btn btn-warning" ng-click="counter.isEditing = true">Edit</button>
-                <button ng-hide="!counter.isEditing" class="btn btn-default" ng-click="cancelEditing(counter)">Cancel</button>
-                <button class="btn btn-danger" ng-disabled="counter.isNew" >Delete</button>
+                <button ng-hide="!isEditing" class="btn btn-success" ng-click="updateCounter(counter)">Save</button>
+                <button ng-hide="isEditing" class="btn btn-warning" ng-click="isEditing = true">Edit</button>
+                <button ng-hide="!isEditing" class="btn btn-default" ng-click="cancelEditing(counter)">Cancel</button>
+                <button class="btn btn-danger" ng-disabled="counter.isNew" ng-click="deleteCounter(counter)" >Delete</button>
             </td>
         </tr>
     </tbody>
 </table>
+
+<script type="text/ng-template" id="deleteCounterDialog">
+    <h3>Delete?</h3>
+    <p>{{ ngDialogData.counter.serialNum }}</p>
+    <button class="btn btn-danger" ng-click="confirm()">Ok</button>
+    <button class="btn" ng-click="closeThisDialog()">Cancel</button>
+</script>
