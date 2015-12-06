@@ -22,9 +22,10 @@ namespace WaterCounterApp.Controllers
             HomeId = x.HomeId,
             Address = x.Address,
         };
-            
+
 
         // GET: api/Homes
+        [ResponseType(typeof(HomeDto))]
         public IQueryable<HomeDto> GetHomes()
         {
             return db.Homes.Select(AsHomeDto);

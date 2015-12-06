@@ -1,13 +1,14 @@
 ﻿var app = angular.module("WaterCounterApp")
-    .controller("HomesListController", ['$scope', '$location', 'ngDialog', function ($scope, $location, ngDialog) {
-        $scope.Homes = [
-            { id: 1, address: "dfsldkf;lk", isHideDelete: true },
-            { id: 2, address: "dfsldkf;lk" },
-            { id: 3, address: "dfsldkf;lk" }
-        ];
+    .controller("HomesListController", ['$scope', '$location', 'ngDialog', 'WaterCounterService', function ($scope, $location, ngDialog, wcs) {
+
+        $scope.homes = [{ homeId: "1", address: "blablabla" }];
+
+        wcs.getHomes().then(function (result) {
+            $scope.homes = result;
+        });
 
         $scope.edit = function (home) {
-            $location.path("/home/" + home.id);
+            $location.path("/home/" + home.homeId);
         }
         $scope.delete = function (home) {
             var dialog = ngDialog.openConfirm(
@@ -19,9 +20,9 @@
                 })
 
             dialog.then(function () {
-                var index = $scope.Homes.indexOf(home);
+                var index = $scope.homes.indexOf(home);
                 if (index > -1)
-                    $scope.Homes.splice(index, 1);
+                    $scope.homes.splice(index, 1);
             })
         }
 
